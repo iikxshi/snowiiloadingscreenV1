@@ -3,9 +3,12 @@ const config = {
     serverName: "Your Server Name",
     serverDescription: "Welcome to our FiveM server!",
     
+    // Background Configuration
+    background: "https://images.pexels.com/photos/1169754/pexels-photo-1169754.jpeg",
+    
     // YouTube Configuration
     youtube: {
-        apiKey: "add your api key here", // Replace with your actual YouTube API key
+        apiKey: "YOUR_API_KEY", // Replace with your actual YouTube API key
         defaultPlaylist: [
             "s2WSQMKvn9U", // Example video ID
             "VIDEO_ID_2",
@@ -77,9 +80,8 @@ const config = {
         facebook: "https://facebook.com/yourpage"
     },
     
-    // Loading Screen Settings
+    // Theme Settings
     settings: {
-        backgroundImage: "assets/background.jpg",
         accentColor: "#00f2ff",
         loadingBarColor: "#00f2ff"
     }

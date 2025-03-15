@@ -7,20 +7,23 @@ version '1.0.0'
 
 loadscreen 'index.html'
 
-files {
-    -- HTML, CSS, JS files
-    'index.html',
-    'styles/main.css',
-    'js/config.js',
-    'js/app.js',
+-- Enable manual shutdown and mouse focus
+loadscreen_manual_shutdown 'yes'
+loadscreen_cursor 'yes'
 
-    -- Assets directories (automatically loads all files in these directories)
+files {
+    -- Core files
+    'index.html',
+    'config.js',
+    'app.js',
+    'background.js',
+    'main.css',
+
+    -- Assets directories
     'assets/**/*',
     'assets/authors/*.jpg',
     'assets/music/*.mp3',
     'assets/video/*.*'
 }
-
-loadscreen_manual_shutdown 'yes'
 
 client_script 'client.lua' 

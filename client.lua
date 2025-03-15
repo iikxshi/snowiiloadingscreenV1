@@ -13,6 +13,9 @@ AddEventHandler('loadingScreen:start', function()
     if not loadingScreenStarted then
         loadingScreenStarted = true
         
+        -- Enable cursor
+        SetNuiFocus(true, true)
+        
         -- Initial progress
         SendLoadingProgress(0.0)
         
@@ -41,13 +44,24 @@ end)
 -- Event handler for when loading screen should end
 AddEventHandler('loadingScreen:stop', function()
     loadingScreenStarted = false
-    SendLoadingProgress(1.0) -- Ensure we show 100% when done
+    SetNuiFocus(false, false)
+    SendLoadingProgress(1.0)
 end)
 
--- Register NUI callback
+-- Register NUI callback for when the UI is ready
 RegisterNUICallback('loaded', function(data, cb)
+    -- Enable cursor when UI is ready
+    SetNuiFocus(true, true)
     -- Trigger the start of loading progress
     TriggerEvent('loadingScreen:start')
+    cb('ok')
+end)
+
+-- Register NUI callback for manual shutdown
+RegisterNUICallback('shutdown', function(data, cb)
+    -- Disable cursor and shut down loading screen
+    SetNuiFocus(false, false)
+    ShutdownLoadingScreen()
     cb('ok')
 end)
 
