@@ -127,8 +127,8 @@ The loading screen can be customized through:
 ## Support
 
 For support or feature requests, please contact through:
-- Discord: [Your Discord]
-- GitHub Issues: [Your GitHub]
+- Discord: [snowiii]
+- GitHub Issues: [https://github.com/iikxshi]
 
 ## License
 
