@@ -4,7 +4,6 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    transition: all 0.2s ease;
 }
 
 :root {
@@ -13,7 +12,7 @@
     --accent-color: #00f2ff;
     --background-color: #111111;
     --card-background: rgba(30, 30, 30, 0.8);
-    --progress-color: #00f2ff;
+    --text-color: #ffffff;
 }
 
 body {
@@ -24,6 +23,7 @@ body {
     color: var(--text-color);
     overflow: hidden;
     position: relative;
+    background-color: var(--background-color);
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -50,6 +50,7 @@ body {
     max-width: 1800px;
     margin: 0 auto;
     justify-content: space-between;
+    color: var(--text-color);
 }
 
 /* Left Panel */
