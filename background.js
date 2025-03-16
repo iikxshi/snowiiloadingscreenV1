@@ -14,7 +14,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (configBackground) {
         document.body.style.backgroundImage = `url('${configBackground}')`;
     } else {
-        document.body.style.background = fallbackBackground;
+        document.body.style.background = 'linear-gradient(45deg, #000428, #004e92)';
+        document.body.style.margin = '0';
+        document.body.style.padding = '0';
     }
 
     // Add the overlay effect

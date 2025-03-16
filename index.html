@@ -10,115 +10,98 @@
 </head>
 <body>
     <div class="container">
-        <!-- Left Side -->
+        <!-- Left Panel -->
         <div class="left-panel">
             <!-- Staff Team Section -->
-            <div class="section staff-team">
+            <div class="staff-team">
                 <h2><i class="fas fa-star"></i> STAFF TEAM</h2>
                 <div class="staff-list" id="staff-list"></div>
             </div>
 
             <!-- Updates Section -->
-            <div class="section updates">
-                <h2><i class="fas fa-sync"></i> LIST OF UPDATES</h2>
+            <div class="updates">
+                <h2><i class="fas fa-sync"></i> LIST OF UPDATE</h2>
                 <div class="updates-container" id="updates-list"></div>
             </div>
         </div>
 
         <!-- Center Content -->
         <div class="center-content">
-            <!-- Music Player (Top) -->
-            <div class="music-player-mini" id="music-player">
-                <div class="current-track">
-                    <div class="track-image">
-                        <img src="assets/default-avatar.jpg" alt="Track Image" id="track-image">
-                        <div class="playing-animation">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </div>
+            <!-- Music Player -->
+            <div class="music-player-mini">
+                <div class="track-info">
+                    <div class="track-title" id="track-title">Little of the Song</div>
+                    <div class="track-artist" id="track-artist">Artist Name</div>
+                </div>
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress" id="song-progress"></div>
                     </div>
-                    <div class="track-info">
-                        <div class="track-details">
-                            <span id="track-title" class="title">No track selected</span>
-                            <span id="track-artist" class="artist">No artist</span>
-                        </div>
-                        <div class="player-controls">
-                            <button id="prev-track"><i class="fas fa-backward"></i></button>
-                            <button id="play-pause"><i class="fas fa-play"></i></button>
-                            <button id="next-track"><i class="fas fa-forward"></i></button>
-                            <button id="show-playlist" class="show-playlist"><i class="fas fa-list"></i></button>
-                        </div>
-                        <div class="progress-container">
-                            <div class="progress-bar">
-                                <div class="progress" id="song-progress"></div>
-                            </div>
-                            <span class="time" id="current-time">0:00</span>
-                            <span class="time" id="duration">0:00</span>
-                        </div>
+                    <div class="time-info">
+                        <span id="current-time">0:00</span>
+                        <span id="duration">3:45</span>
                     </div>
                 </div>
-
-                <!-- YouTube Player (hidden) -->
-                <div id="youtube-player"></div>
-
-                <!-- Playlist UI -->
-                <div class="playlist-ui" id="playlist-ui">
-                    <div class="playlist-header">
-                        <h3>Music Selection</h3>
-                        <div class="search-box">
-                            <input type="text" id="search-input" placeholder="Search for a song...">
-                            <button id="search-button"><i class="fas fa-search"></i></button>
-                        </div>
-                    </div>
-                    <div class="search-results" id="search-results"></div>
-                    <div class="playlist" id="playlist">
-                        <h4>Current Playlist</h4>
-                        <div class="playlist-items" id="playlist-items"></div>
-                    </div>
-                    <button id="close-playlist" class="close-playlist"><i class="fas fa-times"></i></button>
-                </div>
-            </div>
-
-            <!-- Circular Progress -->
-            <div class="progress-circle">
-                <div class="circle">
-                    <div class="progress-text">
-                        <span class="percentage">0%</span>
-                        <h1>GAME IS LOADING</h1>
-                        <p>Please, wait till game will be completely loaded</p>
-                    </div>
+                <div class="player-controls">
+                    <button id="shuffle"><i class="fas fa-random"></i></button>
+                    <button id="prev-track"><i class="fas fa-backward-step"></i></button>
+                    <button id="play-pause"><i class="fas fa-play-circle"></i></button>
+                    <button id="next-track"><i class="fas fa-forward-step"></i></button>
+                    <button id="repeat"><i class="fas fa-redo"></i></button>
                 </div>
             </div>
 
             <!-- Social Links -->
             <div class="social-links">
-                <h2><i class="fas fa-share-alt"></i> SOCIAL LINKS</h2>
-                <div class="social-icons">
-                    <a href="#" id="discord" class="social-icon discord"><img src="assets/icons/discord.png" alt="Discord"><span>DISCORD</span></a>
-                    <a href="#" id="youtube" class="social-icon youtube"><img src="assets/icons/youtube.png" alt="YouTube"><span>YOUTUBE</span></a>
-                    <a href="#" id="twitch" class="social-icon twitch"><img src="assets/icons/twitch.png" alt="Twitch"><span>TWITCH</span></a>
-                    <a href="#" id="facebook" class="social-icon facebook"><img src="assets/icons/facebook.png" alt="Facebook"><span>FACEBOOK</span></a>
-                </div>
+                <a href="#" id="discord" target="_blank"><i class="fab fa-discord"></i></a>
+                <a href="#" id="youtube" target="_blank"><i class="fab fa-youtube"></i></a>
+                <a href="#" id="twitch" target="_blank"><i class="fab fa-twitch"></i></a>
+                <a href="#" id="facebook" target="_blank"><i class="fab fa-facebook"></i></a>
             </div>
         </div>
 
-        <!-- Right Side -->
+        <!-- Loading Text -->
+        <div class="loading-text">
+            <h1>GAME IS LOADING</h1>
+            <p>Please, wait till game will be completely loaded</p>
+        </div>
+
+        <!-- Right Panel -->
         <div class="right-panel">
             <!-- Featured Video -->
-            <div class="section featured-video">
+            <div class="featured-video">
                 <h2><i class="fas fa-video"></i> FEATURED VIDEO</h2>
                 <div class="video-container" id="featured-video"></div>
             </div>
 
-            <!-- Keyboard Information -->
-            <div class="section keyboard-info">
-                <h2><i class="fas fa-keyboard"></i> KEYBOARD INFORMATION</h2>
-                <div class="keyboard-content">
-                    <h3>KEYBOARD</h3>
-                    <h4>BINDS INFORMATION</h4>
-                    <p>Small information about update there in few words for our dear players</p>
-                    <img src="assets/keyboard.png" alt="Keyboard" class="keyboard-image">
+            <!-- Server Information -->
+            <div class="server-info">
+                <h2><i class="fas fa-server"></i> SERVER INFORMATION</h2>
+                <div class="server-content">
+                    <div class="info-item">
+                        <i class="fas fa-users"></i>
+                        <div class="info-text">
+                            <h3>Players Online</h3>
+                            <span id="player-count">0/32</span>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <div class="info-text">
+                            <h3>Server Time</h3>
+                            <span id="server-time">12:00</span>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-signal"></i>
+                        <div class="info-text">
+                            <h3>Server Status</h3>
+                            <span id="server-status">Online</span>
+                        </div>
+                    </div>
+                    <div class="server-description">
+                        <p>Welcome to our FiveM server! Join our community and experience the best roleplay environment.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -126,7 +109,6 @@
 
     <!-- Scripts -->
     <script src="config.js"></script>
-    <script src="background.js"></script>
     <script src="app.js"></script>
 </body>
 </html> 

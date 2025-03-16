@@ -1,160 +1,158 @@
-# Snowii Loading Screen v1
+# Advanced FiveM Loading Screen
 
-A modern, feature-rich loading screen for FiveM servers with music integration, staff information, updates section, and more.
+A modern, feature-rich loading screen for FiveM servers with a sleek design, music player, server information, and more.
 
 ## Features
 
-### 1. Dynamic Loading Progress
-- Real-time loading progress synchronization with FiveM
-- Sleek circular progress indicator
-- Smooth animations and transitions
-- Centered loading percentage display
+### 1. Modern Three-Column Layout
+- Left Panel: Staff Team & Updates
+- Center: Music Player & Social Links
+- Right Panel: Featured Video & Server Information
 
-### 2. Music Player
-- YouTube integration for music playback
-- Full playlist management system
-- Features:
-  - Play/Pause functionality
-  - Next/Previous track controls
-  - Track progress bar with time display
-  - Search YouTube videos directly
-  - Custom playlist creation
-  - Beautiful album art display
-  - Rotating album art animation during playback
+### 2. Staff Team Section
+- Clean list of staff members
+- Profile pictures
+- Role display
+- Hover animations
+- Custom styling for different ranks
 
-### 3. Staff Team Section
-- Display server staff members
-- For each staff member:
-  - Profile picture
-  - Name
-  - Role
-  - Custom styling for different staff ranks
+### 3. Updates Section
+- Server update announcements
+- Date and version tracking
+- Clean card-based layout
+- Hover effects
+- Scrollable list
 
-### 4. Updates Section
-- List of server updates and announcements
-- Features for each update:
-  - Title
-  - Date
-  - Description
-  - Thumbnail image
-  - Clean card-based layout
+### 4. Minimalist Music Player
+- YouTube integration
+- Sleek controls:
+  - Play/Pause
+  - Previous/Next track
+  - Shuffle and Repeat options
+- Progress bar with time display
+- Track title and artist display
+- Fixed position at bottom of screen
 
-### 5. Featured Video
-- Showcase important server content
-- Video player with custom controls
-- Thumbnail support
-- Autoplay configuration options
+### 5. Server Information
+- Real-time player count
+- Current server time
+- Server status indicator
+- Server description
+- Animated info cards
+- Auto-updating statistics
 
-### 6. Social Links
-- Integrated social media connections
-- Supported platforms:
-  - Discord
-  - YouTube
-  - Twitch
-  - Facebook
-- Customizable icons and links
+### 6. Featured Video
+- YouTube video showcase
+- Custom video player
+- Server promotional content
+- Configurable video source
 
-### 7. Keyboard Information
-- Display of important keybinds
-- Server-specific information
-- Clean, minimalist design
+### 7. Social Links
+- Discord integration
+- YouTube channel link
+- Twitch stream link
+- Facebook page link
+- Clean icon design
+- Hover effects
+
+### 8. Loading Status
+- Clean loading text display
+- Bottom-right position
+- Semi-transparent background
+- Progress indication
+
+## Installation
+
+1. Download the resource
+2. Place it in your server's resources folder
+3. Add to your server.cfg:
+```cfg
+ensure snowii_loadingscreenv1
+```
 
 ## Configuration
 
 All features can be customized through the `config.js` file:
 
 ```javascript
-{
+const config = {
+    // Server Information
+    serverName: "Your Server Name",
+    serverDescription: "Welcome to our FiveM server!",
+    
+    // YouTube Configuration
     youtube: {
-        apiKey: "YOUR_API_KEY"  // Required for YouTube integration
+        apiKey: "YOUR_API_KEY",
+        defaultPlaylist: [
+            "VIDEO_ID_1",
+            "VIDEO_ID_2"
+        ]
     },
+    
+    // Staff Team Configuration
     authors: [
         {
             name: "Staff Name",
             role: "Staff Role",
-            avatar: "path/to/avatar.png"
+            avatar: "path/to/avatar.jpg"
         }
-        // Add more staff members
     ],
+    
+    // Updates Configuration
     updates: [
         {
+            date: "Date",
             title: "Update Title",
-            date: "Update Date",
             description: "Update Description"
         }
-        // Add more updates
     ],
+    
+    // Featured Video
     featuredVideo: {
-        url: "path/to/video.mp4",
-        thumbnail: "path/to/thumbnail.jpg"
+        defaultVideoId: "VIDEO_ID",
+        autoplay: false,
+        showControls: true
     },
+    
+    // Social Media Links
     socials: {
         discord: "your-discord-url",
         youtube: "your-youtube-url",
         twitch: "your-twitch-url",
         facebook: "your-facebook-url"
+    },
+    
+    // Theme Settings
+    settings: {
+        accentColor: "#00ffff",
+        loadingBarColor: "#00ffff"
     }
 }
 ```
 
-## Installation
+## Customization
 
-1. Download the resource
-2. Place it in your server's resources folder
-3. Add `ensure snowii_loadingscreenv1` to your server.cfg
-4. Configure the `config.js` file with your settings
-5. Restart your server
+The loading screen can be customized through:
+- `main.css` for visual modifications
+- `config.js` for content and functionality
+- `index.html` for structure changes
 
 ## Requirements
 
 - FiveM server
 - YouTube API key (for music player functionality)
 
-## Customization
-
-The loading screen can be customized through:
-- `styles/main.css` for visual modifications
-- `config.js` for content and functionality
-- `index.html` for structure changes
-
-## Performance
-
-- Optimized for fast loading
-- Minimal resource usage
-- Smooth animations and transitions
-- Efficient event handling
-
 ## Support
 
-For support or feature requests, please contact through:
+For support or feature requests, please contact:
 - Discord: [Your Discord]
 - GitHub Issues: [Your GitHub]
 
 ## License
 
-MIT License
-
-Copyright (c) 2024 snowiii
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-SOFTWARE.
+MIT License - See LICENSE file for details
 
 ## Credits
 
-Created by [snowiii]
-Version 1.0 
+Created by snowiii
+Version 2.0 

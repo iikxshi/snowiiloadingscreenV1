@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initializeFeaturedVideo();
     initializeSocialLinks();
     initializeProgress();
+    initializeKeyboard();
+    initializeServerInfo();
 });
 
 // Staff team initialization
@@ -245,16 +247,76 @@ function initializeUpdates() {
     });
 }
 
-// Featured video
+// Featured Video functionality
+let featuredVideoPlayer = null;
+
 function initializeFeaturedVideo() {
     const videoContainer = document.getElementById('featured-video');
-    
-    videoContainer.innerHTML = `
-        <video controls poster="${config.featuredVideo.thumbnail}">
-            <source src="${config.featuredVideo.url}" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-    `;
+    const videoSearch = document.getElementById('video-search');
+    const videoSearchBtn = document.getElementById('video-search-btn');
+    const videoSearchResults = document.getElementById('video-search-results');
+
+    // Create YouTube player
+    featuredVideoPlayer = new YT.Player('featured-video', {
+        height: '100%',
+        width: '100%',
+        videoId: config.featuredVideo.defaultVideoId || 'dQw4w9WgXcQ', // Default video if none specified
+        playerVars: {
+            autoplay: 0,
+            controls: 1,
+            modestbranding: 1,
+            rel: 0
+        }
+    });
+
+    // Search functionality
+    videoSearchBtn.addEventListener('click', () => searchVideos());
+    videoSearch.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            searchVideos();
+        }
+    });
+
+    function searchVideos() {
+        const query = videoSearch.value.trim();
+        if (!query) return;
+
+        fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(query)}&type=video&maxResults=5&key=${config.youtube.apiKey}`)
+            .then(response => response.json())
+            .then(data => {
+                videoSearchResults.innerHTML = '';
+                videoSearchResults.classList.add('active');
+
+                data.items.forEach(item => {
+                    const videoItem = document.createElement('div');
+                    videoItem.className = 'video-result-item';
+                    videoItem.innerHTML = `
+                        <img src="${item.snippet.thumbnails.medium.url}" alt="${item.snippet.title}">
+                        <div class="video-result-info">
+                            <h4>${item.snippet.title}</h4>
+                            <p>${item.snippet.channelTitle}</p>
+                        </div>
+                    `;
+                    videoItem.addEventListener('click', () => {
+                        featuredVideoPlayer.loadVideoById(item.id.videoId);
+                        videoSearchResults.classList.remove('active');
+                        videoSearch.value = '';
+                    });
+                    videoSearchResults.appendChild(videoItem);
+                });
+            })
+            .catch(error => {
+                console.error('Error searching videos:', error);
+                videoSearchResults.innerHTML = '<div class="video-result-item">Error loading results. Please try again.</div>';
+            });
+    }
+
+    // Close search results when clicking outside
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.featured-video')) {
+            videoSearchResults.classList.remove('active');
+        }
+    });
 }
 
 // Social links
@@ -275,38 +337,204 @@ function initializeProgress() {
     const circle = document.querySelector('.circle');
     let currentProgress = 0;
 
+    function updateProgress(value) {
+        // Convert value to percentage (0-100)
+        const percentage = Math.round(value * 100);
+        
+        // Only update if the progress has changed
+        if (percentage !== currentProgress) {
+            currentProgress = percentage;
+            
+            // Update text
+            progressText.textContent = `${percentage}%`;
+            
+            // Update circle using conic gradient
+            const rotation = (percentage / 100) * 360;
+            circle.style.background = `conic-gradient(
+                var(--accent-color) ${rotation}deg,
+                transparent ${rotation}deg
+            )`;
+
+            // Debug log
+            console.log(`[Loading Screen] Progress updated: ${percentage}%`);
+        }
+    }
+
     // Handle FiveM loading events
     window.addEventListener('message', function(e) {
-        if (e.data.eventName === 'loadProgress') {
-            const loadFraction = e.data.loadFraction;
-            currentProgress = Math.round(loadFraction * 100);
-            updateProgress(currentProgress);
+        const data = e.data;
+        
+        if (data.type === "loadProgress" && typeof data.progress === 'number') {
+            console.log(`[Loading Screen] Received progress event: ${data.progress}`);
+            updateProgress(data.progress);
         }
     });
 
-    // Listen for NUI messages from FiveM
-    window.addEventListener('load', function() {
-        fetch('https://snowii_loadingscreenv1/loaded', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({})
-        });
-    });
-
-    function updateProgress(value) {
-        // Update text
-        progressText.textContent = `${value}%`;
-
-        // Update circle rotation
-        const rotation = (value / 100) * 360;
-        circle.style.background = `conic-gradient(
-            var(--accent-color) ${rotation}deg,
-            transparent ${rotation}deg
-        )`;
-    }
+    // Send ready event to client
+    fetch('https://snowii_loadingscreenv1/loaded', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({})
+    }).catch(err => console.error('[Loading Screen] Error sending ready event:', err));
 
     // Initial progress update
     updateProgress(0);
-} 
+}
+
+// Keyboard Information
+function initializeKeyboard() {
+    const keyboardLayout = document.querySelector('.keyboard-layout');
+    const categoryButtons = document.querySelectorAll('.category-btn');
+    let activeKeys = new Set();
+
+    // Handle category switching
+    categoryButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            categoryButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+            updateKeyBindings(button.dataset.category);
+        });
+    });
+
+    // Function to update key bindings based on category
+    function updateKeyBindings(category) {
+        // Reset all keys
+        document.querySelectorAll('.key').forEach(key => {
+            key.classList.remove('bound');
+            const actionSpan = key.querySelector('.key-action');
+            if (actionSpan) {
+                actionSpan.textContent = '';
+            }
+        });
+
+        // Get keybinds for the selected category
+        const keybinds = getKeybindsForCategory(category);
+        
+        // Update keys with their actions
+        keybinds.forEach(keybind => {
+            const keyElement = keyboardLayout.querySelector(`[data-key="${keybind.key}"]`);
+            if (keyElement) {
+                keyElement.classList.add('bound');
+                const actionSpan = keyElement.querySelector('.key-action');
+                if (actionSpan) {
+                    actionSpan.textContent = keybind.action;
+                }
+            }
+        });
+    }
+
+    // Function to handle key press animation
+    function handleKeyPress(key) {
+        const keyElement = keyboardLayout.querySelector(`[data-key="${key}"]`);
+        if (keyElement && !activeKeys.has(key)) {
+            activeKeys.add(key);
+            keyElement.classList.add('active', 'pressed');
+            
+            // Remove pressed class after animation
+            setTimeout(() => {
+                keyElement.classList.remove('pressed');
+            }, 200);
+        }
+    }
+
+    // Function to handle key release
+    function handleKeyRelease(key) {
+        const keyElement = keyboardLayout.querySelector(`[data-key="${key}"]`);
+        if (keyElement) {
+            activeKeys.delete(key);
+            keyElement.classList.remove('active');
+        }
+    }
+
+    // Listen for keybind updates from FiveM
+    window.addEventListener('message', (event) => {
+        if (event.data.type === 'updateKeybinds') {
+            // Update with new keybinds
+            const activeCategory = document.querySelector('.category-btn.active');
+            if (activeCategory) {
+                updateKeyBindings(activeCategory.dataset.category);
+            }
+        }
+    });
+
+    // Initialize with general category
+    updateKeyBindings('general');
+
+    // Add keyboard event listeners for real-time key highlighting
+    document.addEventListener('keydown', (e) => {
+        handleKeyPress(e.key.toUpperCase());
+    });
+
+    document.addEventListener('keyup', (e) => {
+        handleKeyRelease(e.key.toUpperCase());
+    });
+}
+
+// Helper function to get keybinds for a specific category
+function getKeybindsForCategory(category) {
+    // This will be populated by the data from keybinds.lua
+    const keybinds = {
+        general: [
+            { key: "M", action: "Open Phone" },
+            { key: "F1", action: "Help Menu" },
+            { key: "T", action: "Chat" },
+            { key: "L", action: "Lock Vehicle" }
+        ],
+        vehicle: [
+            { key: "W", action: "Accelerate" },
+            { key: "S", action: "Brake/Reverse" },
+            { key: "A", action: "Turn Left" },
+            { key: "D", action: "Turn Right" },
+            { key: "SHIFT", action: "Handbrake" },
+            { key: "H", action: "Horn" }
+        ],
+        combat: [
+            { key: "SPACE", action: "Jump/Climb" },
+            { key: "CTRL", action: "Crouch" },
+            { key: "R", action: "Reload" },
+            { key: "Q", action: "Quick Item" }
+        ],
+        custom: [] // Will be populated from server
+    };
+
+    return keybinds[category] || [];
+}
+
+// Initialize server information
+function initializeServerInfo() {
+    const playerCount = document.getElementById('player-count');
+    const serverTime = document.getElementById('server-time');
+
+    // Handle server info updates
+    window.addEventListener('message', function(e) {
+        const data = e.data;
+        
+        if (data.type === "serverInfo" && data.data) {
+            // Update player count
+            if (data.data.playerCount) {
+                playerCount.textContent = data.data.playerCount;
+            }
+            
+            // Update server time
+            if (data.data.serverTime) {
+                serverTime.textContent = data.data.serverTime;
+            }
+
+            console.log('[Server Info] Updated:', data.data);
+        }
+    });
+}
+
+// Initialize everything when the page loads
+document.addEventListener('DOMContentLoaded', function() {
+    // ... existing initialization code ...
+    
+    // Initialize featured video after YouTube API is ready
+    if (window.YT && window.YT.Player) {
+        initializeFeaturedVideo();
+    } else {
+        window.onYouTubeIframeAPIReady = initializeFeaturedVideo;
+    }
+}); 

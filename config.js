@@ -68,8 +68,9 @@ const config = {
     
     // Featured Video
     featuredVideo: {
-        url: "assets/video/featured.mp4",
-        thumbnail: "assets/video/thumbnail.jpg"
+        defaultVideoId: "dQw4w9WgXcQ", // Default video to show (can be changed)
+        autoplay: false, // Whether to autoplay the video
+        showControls: true // Whether to show video controls
     },
     
     // Social Media Links
@@ -84,5 +85,27 @@ const config = {
     settings: {
         accentColor: "#00f2ff",
         loadingBarColor: "#00f2ff"
+    },
+
+    // Keybinds Configuration
+    keybinds: {
+        general: [
+            { key: "M", action: "Open Phone", position: { x: 45, y: 30, width: 30, height: 30 } },
+            { key: "F1", action: "Help Menu", position: { x: 15, y: 10, width: 30, height: 30 } },
+            { key: "I", action: "Inventory", position: { x: 40, y: 30, width: 30, height: 30 } },
+            { key: "T", action: "Chat", position: { x: 25, y: 30, width: 30, height: 30 } }
+        ],
+        vehicle: [
+            { key: "F", action: "Enter/Exit Vehicle", position: { x: 35, y: 30, width: 30, height: 30 } },
+            { key: "L", action: "Toggle Lights", position: { x: 50, y: 30, width: 30, height: 30 } },
+            { key: "X", action: "Hands Up", position: { x: 30, y: 30, width: 30, height: 30 } },
+            { key: "B", action: "Toggle Seatbelt", position: { x: 40, y: 40, width: 30, height: 30 } }
+        ],
+        combat: [
+            { key: "SPACE", action: "Jump/Climb", position: { x: 35, y: 50, width: 90, height: 30 } },
+            { key: "CTRL", action: "Crouch", position: { x: 15, y: 50, width: 40, height: 30 } },
+            { key: "R", action: "Reload", position: { x: 35, y: 30, width: 30, height: 30 } }
+        ],
+        custom: []  // Will be populated from server
     }
 }; 

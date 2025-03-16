@@ -26,4 +26,7 @@ files {
     'assets/video/*.*'
 }
 
-client_script 'client.lua' 
+client_scripts {
+    'client.lua',
+    'keybinds.lua'
+} 
